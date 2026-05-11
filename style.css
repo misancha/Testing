@@ -1,10 +1,9 @@
-
 :root {
   --bg: #0d0d0d;
   --card-bg: #1a1a1a;
-  --accent: #c9a96e;       /* warna emas → bisa diganti */
-  --lolos-color: #4caf82;  /* hijau */
-  --gagal-color: #e05c5c;  /* merah */
+  --accent: #c9a96e;
+  --lolos-color: #4caf82;
+  --gagal-color: #e05c5c;
   --text: #f0ece4;
   --muted: #888;
 }
@@ -92,7 +91,7 @@ body {
   flex-shrink: 0;
 }
 
-.username-display { color: var(--muted); font-size: 0.85rem; }
+.nama-display { color: var(--muted); font-size: 0.85rem; }
 .nama-fc { font-family: 'Playfair Display', serif; font-size: 1.2rem; margin: 0.25rem 0; }
 
 .badge {
