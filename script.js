@@ -1,13 +1,12 @@
-// ⚙️ https://docs.google.com/spreadsheets/d/1PFp7gzAUK44NqFb1PX8Hk-6brwrsj33HtoUGGzDjkW0/edit?usp=sharing
-const SHEET_ID = "https://docs.google.com/spreadsheets/d/1PFp7gzAUK44NqFb1PX8Hk-6brwrsj33HtoUGGzDjkW0/edit?usp=sharing";
-const SHEET_NAME = "Sheet1"; // nama tab sheet kamu
+const SHEET_ID = "1PFp7gzAUK44NqFb1PX8Hk-6brwrsj33HtoUGGzDjkW0"; 
+const SHEET_NAME = "Sheet1";
 
 async function cariMember() {
-  const username = document.getElementById("usernameInput").value.trim().toLowerCase();
+  const nama = document.getElementById("namaInput").value.trim().toLowerCase();
   const hasilDiv = document.getElementById("hasil");
 
-  if (!username) {
-    hasilDiv.innerHTML = `<p class="error">⚠️ Masukkan username dulu ya!</p>`;
+  if (!nama) {
+    hasilDiv.innerHTML = `<p class="error">⚠️ Masukkan nama dulu ya!</p>`;
     hasilDiv.classList.remove("hidden");
     return;
   }
@@ -20,17 +19,15 @@ async function cariMember() {
     const res = await fetch(url);
     const text = await res.text();
 
-    // Google Sheets bungkus responsenya, kita perlu "buka"
     const json = JSON.parse(text.substring(47, text.length - 2));
     const rows = json.table.rows;
 
-    // Cari username yang cocok
     let found = null;
     for (let row of rows) {
-      const uname = row.c[0]?.v?.toString().toLowerCase();
-      if (uname === username) {
+      const namaDiSheet = row.c[0]?.v?.toString().toLowerCase();
+      if (namaDiSheet === nama) {
         found = {
-          username: row.c[0]?.v,
+          nama: row.c[0]?.v,
           nama_fc: row.c[1]?.v,
           status: row.c[2]?.v,
           foto: row.c[3]?.v,
@@ -40,7 +37,7 @@ async function cariMember() {
     }
 
     if (!found) {
-      hasilDiv.innerHTML = `<p class="error">❌ Username <strong>${username}</strong> tidak ditemukan di database.</p>`;
+      hasilDiv.innerHTML = `<p class="error">❌ Nama <strong>${nama}</strong> tidak ditemukan di database.</p>`;
       return;
     }
 
@@ -50,7 +47,7 @@ async function cariMember() {
       <div class="kartu ${isLolos ? 'lolos' : 'tidak-lolos'}">
         <img src="${found.foto}" alt="${found.nama_fc}" class="foto-fc" />
         <div class="info">
-          <p class="username-display">@${found.username}</p>
+          <p class="nama-display">${found.nama}</p>
           <p class="nama-fc">${found.nama_fc}</p>
           <div class="badge ${isLolos ? 'badge-lolos' : 'badge-gagal'}">
             ${isLolos ? '✓ LOLOS SELEKSI' : '✗ TIDAK LOLOS'}
@@ -64,9 +61,8 @@ async function cariMember() {
   }
 }
 
-// Biar bisa Enter juga
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("usernameInput").addEventListener("keydown", (e) => {
+  document.getElementById("namaInput").addEventListener("keydown", (e) => {
     if (e.key === "Enter") cariMember();
   });
 });
